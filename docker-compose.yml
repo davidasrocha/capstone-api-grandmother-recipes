@@ -1,0 +1,31 @@
+version: '3'
+
+services:
+
+  web:
+    image: davidasrocha/api-grandmother-recipes-nginx
+    ports:
+      - "80:80"
+    build:
+      dockerfile: ./docker/nginx/Dockerfile
+      context: .
+    volumes:
+      - api_public:/var/www/html/public
+    depends_on:
+      - php
+    links:
+      - php
+
+  php:
+    image: davidasrocha/api-grandmother-recipes-php
+    build:
+      dockerfile: ./docker/php/Dockerfile
+      context: .
+    environment:
+      APP_ENV: prod
+      APP_DEBUG: 0
+    volumes:
+      - api_public:/var/www/html/public
+
+volumes:
+  api_public:
