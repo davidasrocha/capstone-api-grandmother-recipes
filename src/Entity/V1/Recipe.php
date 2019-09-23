@@ -5,16 +5,30 @@ namespace App\Entity\V1;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use OpenApi\Annotations\Items;
+use OpenApi\Annotations\JsonContent;
+use OpenApi\Annotations\Property;
+use OpenApi\Annotations\Schema;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\V1\RecipeRepository")
+ *
+ * @Schema(
+ *     description="Recipe entity",
+ *     title="Recipe entity",
+ *     @JsonContent(schema="Recipe")
+ * )
  */
 class Recipe
 {
     /**
+     * @var int $id
+     *
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
+     *
+     * @Property(format="int32", description="Unique identifier of the recipe")
      */
     private $id;
 
@@ -22,6 +36,8 @@ class Recipe
      * @var string $name
      *
      * @ORM\Column(type="string", length=155, nullable=false)
+     *
+     * @Property(format="string", description="Name to identifier the recipe")
      */
     private $name;
 
@@ -29,6 +45,8 @@ class Recipe
      * @var string $description
      *
      * @ORM\Column(type="text", length=155, nullable=true)
+     *
+     * @Property(format="string", description="A short description about the recipe")
      */
     private $description;
 
@@ -36,6 +54,13 @@ class Recipe
      * @var Collection $ingredients
      *
      * @ORM\OneToMany(targetEntity="App\Entity\V1\Ingredient", mappedBy="recipe", cascade={"persist"}, fetch="EAGER", orphanRemoval=true)
+     *
+     * @Property(
+     *     format="array",
+     *     property="ingredients",
+     *     description="A list of the ingredients to prepare the recipe",
+     *     @Items(type="string")
+     * )
      */
     private $ingredients;
 
@@ -43,6 +68,13 @@ class Recipe
      * @var Collection $preparations
      *
      * @ORM\OneToMany(targetEntity="App\Entity\V1\Preparation", mappedBy="recipe", cascade={"persist"}, fetch="EAGER", orphanRemoval=true)
+     *
+     * @Property(
+     *     format="array",
+     *     property="preparations",
+     *     description="A list of the steps to prepare the recipe",
+     *     @Items(type="string")
+     * )
      */
     private $preparations;
 

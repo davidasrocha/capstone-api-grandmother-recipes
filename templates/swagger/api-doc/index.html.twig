@@ -1,0 +1,30 @@
+{% extends "swagger/base.html.twig" %}
+
+{% block body %}
+    <div id="swagger-ui"></div>
+{% endblock %}
+
+{% block scripts %}
+    <script src="{{ absolute_url(asset('swagger/swagger-ui-bundle.js')) }}"></script>
+    <script src="{{ absolute_url(asset('swagger/swagger-ui-standalone-preset.js')) }}"></script>
+    <script>
+        window.onload = function () {
+
+            const ui = SwaggerUIBundle({
+                url: "{{ url('api_v1_doc_json') }}",
+                dom_id: '#swagger-ui',
+                deepLinking: true,
+                presets: [
+                    SwaggerUIBundle.presets.apis,
+                    SwaggerUIStandalonePreset
+                ],
+                plugins: [
+                    SwaggerUIBundle.plugins.DownloadUrl
+                ],
+                layout: "StandaloneLayout"
+            });
+
+            window.ui = ui;
+        }
+    </script>
+{% endblock %}
