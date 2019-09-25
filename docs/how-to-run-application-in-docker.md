@@ -28,7 +28,7 @@ Now you can access the application in your web browser using this URL `http://12
 
 ### How to access the API Documentation
 
-The application API provide an address to consult and test the resources, you can access the URL `http://127.0.0.1:8000/api/v1/doc` and will see the page:
+The application API provide an address to consult and test the resources, you can access the URL `http://127.0.0.1/api/v1/doc` and will see the page:
 
 ![alt text][api-v1-doc]
 
