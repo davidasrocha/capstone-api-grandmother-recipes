@@ -25,3 +25,11 @@ Now you can access the application in your web browser using this URL `http://12
 ![alt text][api-grandmother-recipe-symfony-welcome-page]
 
 [api-grandmother-recipe-symfony-welcome-page]: ./img/api-grandmother-recipe-symfony-welcome-page.png "Symfony Welcome Page"
+
+### How to access the API Documentation
+
+The application API provide an address to consult and test the resources, you can access the URL `http://127.0.0.1:8000/api/v1/doc` and will see the page:
+
+![alt text][api-v1-doc]
+
+[api-v1-doc]: ./img/api-v1-doc.png "API Doc"
