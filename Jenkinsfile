@@ -8,7 +8,7 @@ pipeline {
                     stages {
                         stage('Build NGINX') {
                             steps {
-                                sh "docker build --force-rm --rm --no-cache -t davidasrocha/api-grandmother-recipes-nginx"
+                                sh "docker build --force-rm --rm --no-cache -t davidasrocha/api-grandmother-recipes-nginx -f $WORKSPACE/docker/nginx/Dockerfile ."
                             }
                         }
                         stage('Deploy NGINX') {
@@ -29,7 +29,7 @@ pipeline {
                     stages {
                         stage('Build PHP') {
                             steps {
-                                sh "docker build --force-rm --rm --no-cache -t davidasrocha/api-grandmother-recipes-php"
+                                sh "docker build --force-rm --rm --no-cache -t davidasrocha/api-grandmother-recipes-php -f $WORKSPACE/docker/php/Dockerfile ."
                             }
                         }
                         stage('Deploy PHP') {
