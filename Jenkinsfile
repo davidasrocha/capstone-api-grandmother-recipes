@@ -11,8 +11,10 @@ pipeline {
         }
         stage('Deploy Images') {
             steps {
-                docker.withRegistry('', 'DOCKER_HUB_DEVOPS') {
-                    sh "./upload_docker.sh"
+                script {
+                    docker.withRegistry('', 'DOCKER_HUB_DEVOPS') {
+                        sh "./upload_docker.sh"
+                    }
                 }
             }
         }
