@@ -16,8 +16,8 @@ pipeline {
                                 script {
                                     docker.withRegistry('', 'DOCKER_HUB_DEVOPS') {
                                         sh "docker tag davidasrocha/api-grandmother-recipes-nginx davidasrocha/api-grandmother-recipes-nginx:latest"
-                                        sh "docker tag davidasrocha/api-grandmother-recipes-nginx davidasrocha/api-grandmother-recipes-nginx:$GIT_BRANCH-$GIT_COMMIT"
                                         sh "docker push davidasrocha/api-grandmother-recipes-nginx:latest"
+                                        sh "docker tag davidasrocha/api-grandmother-recipes-nginx davidasrocha/api-grandmother-recipes-nginx:$GIT_BRANCH-$GIT_COMMIT"
                                         sh "docker push davidasrocha/api-grandmother-recipes-nginx:$GIT_BRANCH-$GIT_COMMIT"
                                     }
                                 }
@@ -37,8 +37,8 @@ pipeline {
                                 script {
                                     docker.withRegistry('', 'DOCKER_HUB_DEVOPS') {
                                         sh "docker tag davidasrocha/api-grandmother-recipes-php davidasrocha/api-grandmother-recipes-php:latest"
-                                        sh "docker tag davidasrocha/api-grandmother-recipes-php davidasrocha/api-grandmother-recipes-php:$GIT_BRANCH-$GIT_COMMIT"
                                         sh "docker push davidasrocha/api-grandmother-recipes-php:latest"
+                                        sh "docker tag davidasrocha/api-grandmother-recipes-php davidasrocha/api-grandmother-recipes-php:$GIT_BRANCH-$GIT_COMMIT"
                                         sh "docker push davidasrocha/api-grandmother-recipes-php:$GIT_BRANCH-$GIT_COMMIT"
                                     }
                                 }
