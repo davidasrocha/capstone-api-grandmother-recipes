@@ -4,7 +4,7 @@ pipeline {
     stages {
         stage('Docker Images') {
             parallel {
-                stage('Builds + Deploys') {
+                stage('NGINX Builds + Deploys') {
                     stages {
                         stage('Build NGINX') {
                             steps {
@@ -25,7 +25,7 @@ pipeline {
                         }
                     }
                 }
-                stage('Builds + Deploys') {
+                stage('PHP Builds + Deploys') {
                     stages {
                         stage('Build PHP') {
                             steps {
