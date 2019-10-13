@@ -1,0 +1,20 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build Images') {
+            steps {
+                steps {
+                    sh "./build_docker.sh"
+                }
+            }
+        }
+        stage('Deploy Images') {
+            steps {
+                docker.withRegistry('', 'DOCKER_HUB_DEVOPS') {
+                    sh "./upload_docker.sh"
+                }
+            }
+        }
+    }
+}
