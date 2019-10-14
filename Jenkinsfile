@@ -58,5 +58,27 @@ pipeline {
                 sh "docker rmi -f davidasrocha/api-grandmother-recipes-php"
             }
         }
+        stage('Deploy') {
+            steps {
+                sh "mkdir -p $WORKSPACE/.kube/"
+
+                withAWS(region: "${params.REGION}", credentials: 'AWS_DEVOPS') {
+                    s3Download(file: "$WORKSPACE/.kube/config", bucket: "${params.BUCKET_NAME}", path: "${params.CLUSTER_NAME}")
+                }
+
+                sh "/devops_deploy_app.sh ${params.CLUSTER_NAME} $WORKSPACE/helm/ $GIT_BRANCH-$GIT_COMMIT $WORKSPACE/.kube/config LoadBalancer"
+            }
+        }
+        stage('Swap') {
+            steps {
+                sh "mkdir -p $WORKSPACE/.kube/"
+
+                withAWS(region: "${params.REGION}", credentials: 'AWS_DEVOPS') {
+                    s3Download(file: "$WORKSPACE/.kube/config", bucket: "${params.BUCKET_NAME}", path: "${params.CLUSTER_NAME}")
+                }
+
+                sh "./devops_deploy_swap.sh ${params.CLUSTER_NAME} $WORKSPACE/helm/"
+            }
+        }
     }
 }
