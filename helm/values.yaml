@@ -1,0 +1,35 @@
+blue:
+  enabled: false
+
+green:
+  enabled: false
+
+productionSlot: blue
+
+replicaCount: 3
+
+image:
+  nginx:
+    repository: davidasrocha/api-grandmother-recipes-nginx
+    tag: stable
+  php:
+    repository: davidasrocha/api-grandmother-recipes-php
+    tag: stable
+  pullPolicy: IfNotPresent
+
+imagePullSecrets: private-docker-hub
+nameOverride: ""
+fullnameOverride: ""
+
+service:
+  lb:
+    type: NodePort
+    port: 80
+
+resources: {}
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}

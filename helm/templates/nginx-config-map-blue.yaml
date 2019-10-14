@@ -1,0 +1,11 @@
+{{ if .Values.blue.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-nginx-configs-blue
+data:
+    php_upstream.conf: |
+      upstream php {
+          server 127.0.0.1:9000;
+      }
+{{ end }}

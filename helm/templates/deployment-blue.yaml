@@ -1,0 +1,52 @@
+{{ if .Values.blue.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-blue
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Release.Name }}
+      release: {{ .Release.Name }}
+      slot: blue
+
+  template:
+    metadata:
+      labels:
+        app: {{ .Release.Name }}
+        release: {{ .Release.Name }}
+        slot: blue
+    spec:
+    # {{ if .Values.imagePullSecrets }}
+      imagePullSecrets:
+        - name: {{ .Values.imagePullSecrets }}
+    # {{ end }}
+      containers:
+        # nginx
+        - name: {{ .Release.Name }}-nginx-blue
+          image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          volumeMounts:
+            - name: nginx-php-upstream-volume
+              mountPath: /etc/nginx/conf.d/php_upstream.conf
+              subPath: php_upstream.conf
+
+        # php-fpm
+        - name: {{ .Release.Name }}-php-blue
+          image: "{{ .Values.image.php.repository }}:{{ .Values.image.php.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: fast-cgi
+              containerPort: 9000
+              protocol: TCP
+
+      volumes:
+        - name: nginx-php-upstream-volume
+          configMap:
+            name: {{ .Release.Name }}-nginx-configs-blue
+{{ end }}
