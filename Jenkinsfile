@@ -1,6 +1,12 @@
 pipeline {
     agent any
 
+    environment {
+        CLUSTER_NAME = "capstone"
+        BUCKET_NAME = "capstone-cicd-storage-eks-configs"
+        REGION = "us-west-2"
+    }
+
     stages {
         stage('Docker Images') {
             parallel {
@@ -60,24 +66,20 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                sh "mkdir -p $WORKSPACE/.kube/"
-
-                withAWS(region: "${params.REGION}", credentials: 'AWS_DEVOPS') {
-                    s3Download(file: "$WORKSPACE/.kube/config", bucket: "${params.BUCKET_NAME}", path: "${params.CLUSTER_NAME}")
+                withAWS(region: "$REGION", credentials: 'AWS_DEVOPS') {
+                    sh "mkdir -p $WORKSPACE/.kube/"
+                    s3Download(file: "$WORKSPACE/.kube/config", bucket: "$BUCKET_NAME", path: "$CLUSTER_NAME", force: true)
+                    sh "/devops_deploy_app.sh $CLUSTER_NAME $WORKSPACE/helm/ $GIT_BRANCH-$GIT_COMMIT $WORKSPACE/.kube/config LoadBalancer"
                 }
-
-                sh "/devops_deploy_app.sh ${params.CLUSTER_NAME} $WORKSPACE/helm/ $GIT_BRANCH-$GIT_COMMIT $WORKSPACE/.kube/config LoadBalancer"
             }
         }
         stage('Swap') {
             steps {
-                sh "mkdir -p $WORKSPACE/.kube/"
-
-                withAWS(region: "${params.REGION}", credentials: 'AWS_DEVOPS') {
-                    s3Download(file: "$WORKSPACE/.kube/config", bucket: "${params.BUCKET_NAME}", path: "${params.CLUSTER_NAME}")
+                withAWS(region: "$REGION", credentials: 'AWS_DEVOPS') {
+                    sh "mkdir -p $WORKSPACE/.kube/"
+                    s3Download(file: "$WORKSPACE/.kube/config", bucket: "$BUCKET_NAME", path: "$CLUSTER_NAME", force: true)
+                    sh "./devops_deploy_swap.sh $CLUSTER_NAME $WORKSPACE/helm/"
                 }
-
-                sh "./devops_deploy_swap.sh ${params.CLUSTER_NAME} $WORKSPACE/helm/"
             }
         }
     }
