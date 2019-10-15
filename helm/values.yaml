@@ -17,7 +17,7 @@ image:
     tag: stable
   pullPolicy: IfNotPresent
 
-imagePullSecrets: private-docker-hub
+imagePullSecrets: docker-registry-secret
 nameOverride: ""
 fullnameOverride: ""
 
