@@ -42,4 +42,4 @@ echo ""
 echo "deploying application package"
 echo ""
 
-helm $KUBECONFIG upgrade $PROJECT_NAME $WORKSPACE --set "$PROD_ENV_COLOR.enabled=true$TAG_VERSION""$SERVICE_TYPE"",imagePullSecrets=$PROJECT_NAME-docker-registry-secret" --install --reuse-values --cleanup-on-fail --wait --timeout 60
+helm $KUBECONFIG upgrade $PROJECT_NAME $WORKSPACE --set "$PROD_ENV_COLOR.enabled=true$TAG_VERSION""$SERVICE_TYPE" --install --reuse-values --cleanup-on-fail --wait --timeout 60

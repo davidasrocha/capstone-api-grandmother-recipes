@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: {{ .Release.Name }}-nginx-configs-blue
+  namespace: {{ .Release.Name }}
 data:
     php_upstream.conf: |
       upstream php {

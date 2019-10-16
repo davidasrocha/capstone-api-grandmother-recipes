@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ .Release.Name }}-service-stage
+  namespace: {{ .Release.Name }}
   labels:
     app: {{ .Release.Name }}
     env: prod

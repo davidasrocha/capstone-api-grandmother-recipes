@@ -3,6 +3,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-green
+  namespace: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
@@ -18,10 +19,6 @@ spec:
         release: {{ .Release.Name }}
         slot: green
     spec:
-    # {{ if .Values.imagePullSecrets }}
-      imagePullSecrets:
-        - name: {{ .Values.imagePullSecrets }}
-    # {{ end }}
       containers:
         # nginx
         - name: {{ .Release.Name }}-nginx-green
