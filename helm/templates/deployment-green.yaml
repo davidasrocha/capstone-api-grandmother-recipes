@@ -18,6 +18,24 @@ spec:
         release: {{ .Release.Name }}
         slot: green
     spec:
+      initContainers:
+        - name: {{ .Release.Name }}-php
+          image: "{{ .Values.image.php.repository }}:{{ .Values.image.php.tag }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          volumeMounts:
+            - name: api-public
+              mountPath: /api_public
+            - name: var-dir
+              mountPath: /var_dir
+          command:
+            - bash
+            - "-c"
+            - |
+              bin/console assets:install
+              bin/console cache:warmup --env=prod
+              cp -r /var/www/html/public/ /api_public/
+              cp -r /var/www/html/var/ /var_dir/
+
       containers:
         # nginx
         - name: {{ .Release.Name }}-nginx-green
@@ -43,13 +61,15 @@ spec:
               containerPort: 9000
               protocol: TCP
           volumeMounts:
-            - name: api-public
-              mountPath: /var/www/html/public
+            - name: var-dir
+              mountPath: /var/www/html/var
 
       volumes:
         - name: nginx-php-upstream-volume
           configMap:
             name: {{ .Release.Name }}-nginx-configs-green
         - name: api-public
+          emptyDir: {}
+        - name: var-dir
           emptyDir: {}
 {{ end }}
