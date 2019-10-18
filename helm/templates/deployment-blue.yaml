@@ -31,7 +31,7 @@ spec:
             - name: nginx-php-upstream-volume
               mountPath: /etc/nginx/conf.d/php_upstream.conf
               subPath: php_upstream.conf
-            - name: api_public
+            - name: api-public
               mountPath: /var/www/html/public
 
         # php-fpm
@@ -43,13 +43,13 @@ spec:
               containerPort: 9000
               protocol: TCP
           volumeMounts:
-            - name: api_public
+            - name: api-public
               mountPath: /var/www/html/public
 
       volumes:
         - name: nginx-php-upstream-volume
           configMap:
             name: {{ .Release.Name }}-nginx-configs-blue
-        - name: api_public
+        - name: api-public
           emptyDir: {}
 {{ end }}
