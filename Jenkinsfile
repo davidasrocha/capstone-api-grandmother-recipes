@@ -65,19 +65,25 @@ pipeline {
             }
         }
         stage('Deploy') {
+            environment {
+                KUBECONFIG = "$WORKSPACE/.kube/config"
+            }
             steps {
                 withAWS(region: "$REGION", credentials: 'AWS_DEVOPS') {
                     sh "mkdir -p $WORKSPACE/.kube/"
-                    s3Download(file: "$WORKSPACE/.kube/config", bucket: "$BUCKET_NAME", path: "$CLUSTER_NAME", force: true)
+                    s3Download(file: "$KUBECONFIG", bucket: "$BUCKET_NAME", path: "$CLUSTER_NAME", force: true)
                     sh "./devops_deploy_app.sh $CLUSTER_NAME $GIT_BRANCH-$GIT_COMMIT LoadBalancer"
                 }
             }
         }
         stage('Swap') {
+            environment {
+                KUBECONFIG = "$WORKSPACE/.kube/config"
+            }
             steps {
                 withAWS(region: "$REGION", credentials: 'AWS_DEVOPS') {
                     sh "mkdir -p $WORKSPACE/.kube/"
-                    s3Download(file: "$WORKSPACE/.kube/config", bucket: "$BUCKET_NAME", path: "$CLUSTER_NAME", force: true)
+                    s3Download(file: "$KUBECONFIG", bucket: "$BUCKET_NAME", path: "$CLUSTER_NAME", force: true)
                     sh "./devops_deploy_swap.sh $CLUSTER_NAME"
                 }
             }
