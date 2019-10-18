@@ -3,7 +3,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: {{ .Release.Name }}-green
-  namespace: {{ .Release.Name }}
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
