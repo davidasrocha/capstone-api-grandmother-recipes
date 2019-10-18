@@ -2,16 +2,12 @@
 
 # setting required parameters
 PROJECT_NAME="$1"
-WORKSPACE="$2"
-KUBECONFIG="$3"
 
 STAGE_ENV_COLOR=$(kubectl get services --field-selector metadata.name="$PROJECT_NAME-service-stage" -o=jsonpath={.items..spec.selector.slot})
 
-# setting kubeconfig path file
-if [ -n "$KUBECONFIG" ] && [ "$KUBECONFIG" != "" ]
+if [ -z $WORKSPACE ]
 then
-    mkdir -p ".kube/"
-    KUBECONFIG="--kubeconfig $KUBECONFIG"
+    WORKSPACE="$PWD"
 fi
 
 APP_PORT_STAGE=$(kubectl get service "$PROJECT_NAME-service-lb" -o jsonpath={.spec.ports[0].nodePort})
@@ -29,7 +25,7 @@ echo ""
 echo "shutdown stage environment $STAGE_ENV_COLOR"
 echo ""
 
-helm $KUBECONFIG upgrade $PROJECT_NAME $WORKSPACE --set "$STAGE_ENV_COLOR.enabled=false" --install --reuse-values
+helm upgrade $PROJECT_NAME "$WORKSPACE/helm/" --set "$STAGE_ENV_COLOR.enabled=false" --install --reuse-values
 
 kubectl delete configmap "$PROJECT_NAME-nginx-configs-$STAGE_ENV_COLOR" --ignore-not-found=true
 kubectl delete deployment "$PROJECT_NAME-$STAGE_ENV_COLOR" --ignore-not-found=true
