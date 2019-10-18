@@ -3,6 +3,15 @@
 # setting required parameters
 PROJECT_NAME="$1"
 
+DEPLOYMENT_BLUE=$(kubectl get deployment "$PROJECT_NAME-blue" -o jsonpath='{.metadata.uid}' --ignore-not-found)
+DEPLOYMENT_GREEN=$(kubectl get deployment "$PROJECT_NAME-green" -o jsonpath='{.metadata.uid}' --ignore-not-found)
+
+if [ "$DEPLOYMENT_BLUE" = "" ] || [ "$DEPLOYMENT_GREEN" = "" ]
+then
+    echo "Skipped swap, there is only one deployment"
+    exit 0
+fi
+
 PROD_ENV_COLOR=$(kubectl get services --field-selector metadata.name="$PROJECT_NAME-service-prod" -o=jsonpath={.items..spec.selector.slot})
 STAGE_ENV_COLOR=$(kubectl get services --field-selector metadata.name="$PROJECT_NAME-service-stage" -o=jsonpath={.items..spec.selector.slot})
 
