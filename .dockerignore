@@ -9,7 +9,7 @@
 .git*
 
 docker-compose*
-*docker.sh
+*.sh
 
 /docs/
 *.md
