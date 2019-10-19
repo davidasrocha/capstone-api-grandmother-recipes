@@ -13,7 +13,12 @@ if [ "$PROD_ENV_COLOR" = "" ]
 then
     PROD_ENV_COLOR="blue"
 else
-    PROD_ENV_COLOR="$STAGE_ENV_COLOR"
+    PROD_DEPLOYMENT_COLOR=$(kubectl get deployment "$PROJECT_NAME-$PROD_ENV_COLOR" -o jsonpath='{.metadata.uid}' --ignore-not-found)
+
+    if [ "$PROD_DEPLOYMENT_COLOR" != "" ]
+    then
+        PROD_ENV_COLOR="$STAGE_ENV_COLOR"
+    fi
 fi
 
 # setting tag version to nginx and php
