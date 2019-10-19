@@ -50,7 +50,7 @@ APP_CHECK=$(curl -X GET "http://$INGRESS/api/v1/doc" -sS -o /dev/null -w "%{http
 
 if [ "$APP_CHECK" = 200 ]
 then
-    echo "deployment validated application check return invalid state $APP_CHECK"
+    echo "deployment validated application check return valid state $APP_CHECK"
     exit 0
 fi
 
