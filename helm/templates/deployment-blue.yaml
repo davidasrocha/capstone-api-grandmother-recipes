@@ -46,7 +46,7 @@ spec:
               containerPort: 80
               protocol: TCP
           volumeMounts:
-            - name: nginx-php-upstream-volume
+            - name: app-config-volume
               mountPath: /etc/nginx/conf.d/php_upstream.conf
               subPath: php_upstream.conf
             - name: api-public
@@ -61,13 +61,16 @@ spec:
               containerPort: 9000
               protocol: TCP
           volumeMounts:
+            - name: app-config-volume
+              mountPath: /var/www/html/.env
+              subPath: envs
             - name: var-dir
               mountPath: /var/www/html/var
 
       volumes:
-        - name: nginx-php-upstream-volume
+        - name: app-config-volume
           configMap:
-            name: {{ .Release.Name }}-nginx-configs-blue
+            name: {{ .Release.Name }}-config-map-blue
         - name: api-public
           emptyDir: {}
         - name: var-dir
