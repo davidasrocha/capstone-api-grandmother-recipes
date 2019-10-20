@@ -14,4 +14,3 @@ docker-compose*
 /docs/
 *.md
 helm/
-kubernetes/
