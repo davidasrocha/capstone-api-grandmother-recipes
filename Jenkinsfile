@@ -58,10 +58,8 @@ pipeline {
             steps {
                 sh "docker rmi -f davidasrocha/api-grandmother-recipes-nginx:$GIT_BRANCH-$GIT_COMMIT"
                 sh "docker rmi -f davidasrocha/api-grandmother-recipes-nginx:latest"
-                sh "docker rmi -f davidasrocha/api-grandmother-recipes-nginx"
                 sh "docker rmi -f davidasrocha/api-grandmother-recipes-php:$GIT_BRANCH-$GIT_COMMIT"
                 sh "docker rmi -f davidasrocha/api-grandmother-recipes-php:latest"
-                sh "docker rmi -f davidasrocha/api-grandmother-recipes-php"
             }
         }
         stage('Deploy') {
