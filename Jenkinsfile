@@ -70,7 +70,6 @@ pipeline {
             }
             steps {
                 withAWS(region: "$REGION", credentials: 'AWS_DEVOPS') {
-                    sh "mkdir -p $WORKSPACE/.kube/"
                     s3Download(file: "$KUBECONFIG", bucket: "$BUCKET_NAME", path: "$CLUSTER_NAME", force: true)
                     sh "./devops_deploy_app.sh $CLUSTER_NAME $GIT_BRANCH-$GIT_COMMIT LoadBalancer"
                 }
@@ -82,7 +81,6 @@ pipeline {
             }
             steps {
                 withAWS(region: "$REGION", credentials: 'AWS_DEVOPS') {
-                    sh "mkdir -p $WORKSPACE/.kube/"
                     s3Download(file: "$KUBECONFIG", bucket: "$BUCKET_NAME", path: "$CLUSTER_NAME", force: true)
                     sh "./devops_deploy_validate.sh $CLUSTER_NAME"
                 }
@@ -94,7 +92,6 @@ pipeline {
             }
             steps {
                 withAWS(region: "$REGION", credentials: 'AWS_DEVOPS') {
-                    sh "mkdir -p $WORKSPACE/.kube/"
                     s3Download(file: "$KUBECONFIG", bucket: "$BUCKET_NAME", path: "$CLUSTER_NAME", force: true)
                     sh "./devops_deploy_swap.sh $CLUSTER_NAME"
                 }
