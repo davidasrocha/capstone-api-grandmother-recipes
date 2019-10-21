@@ -36,25 +36,27 @@ fi
 DEPLOYMENT_BLUE=$(kubectl get deployment "$PROJECT_NAME-blue" -o jsonpath='{.metadata.uid}' --ignore-not-found)
 DEPLOYMENT_GREEN=$(kubectl get deployment "$PROJECT_NAME-green" -o jsonpath='{.metadata.uid}' --ignore-not-found)
 
+ENV_COLOR=""
+
 # first deployment execution
 if [ "$DEPLOYMENT_BLUE" = "" ] && [ "$DEPLOYMENT_GREEN" = "" ]
 then
-    PROD_ENV_COLOR="blue"
-fi
-
-# manage deployment
-PROD_DEPLOYMENT_COLOR=$(kubectl get deployment "$PROJECT_NAME-$PROD_ENV_COLOR" -o jsonpath='{.metadata.uid}' --ignore-not-found)
-if [ "$PROD_DEPLOYMENT_COLOR" != "" ]
-then
-    # assurance that there is a deployment to production
-    STAGE_ENV_COLOR="$STAGE_ENV_COLOR"
+    ENV_COLOR="blue"
 else
-    # invert color to stage environment
-    if [ "$PROD_ENV_COLOR" = "blue" ]
+    # manage deployment
+    PROD_DEPLOYMENT_COLOR=$(kubectl get deployment "$PROJECT_NAME-$PROD_ENV_COLOR" -o jsonpath='{.metadata.uid}' --ignore-not-found)
+    if [ "$PROD_DEPLOYMENT_COLOR" = "" ]
     then
-        STAGE_ENV_COLOR="green"
+        # assurance that there is a deployment to production
+        ENV_COLOR="$PROD_ENV_COLOR"
     else
-        STAGE_ENV_COLOR="blue"
+        # invert color to stage environment
+        if [ "$PROD_ENV_COLOR" = "blue" ]
+        then
+            ENV_COLOR="green"
+        else
+            ENV_COLOR="blue"
+        fi
     fi
 fi
 
@@ -62,15 +64,15 @@ echo ""
 echo "deploying application"
 echo ""
 
-kubectl apply -f "$WORKSPACE/kubernetes/config-maps/$PROJECT_NAME-config-map-$STAGE_ENV_COLOR.yaml"
-kubectl apply -f "$WORKSPACE/kubernetes/deployments/deployment-$STAGE_ENV_COLOR.yaml" --dry-run=true -o yaml | sed "s/:latest/:$TAG_VERSION/g" | kubectl apply -f -
+kubectl apply -f "$WORKSPACE/kubernetes/config-maps/$PROJECT_NAME-config-map-$ENV_COLOR.yaml"
+kubectl apply -f "$WORKSPACE/kubernetes/deployments/deployment-$ENV_COLOR.yaml" --dry-run=true -o yaml | sed "s/:latest/:$TAG_VERSION/g" | kubectl apply -f -
 
 echo ""
-echo "waiting deployment $STAGE_ENV_COLOR"
+echo "waiting deployment $ENV_COLOR"
 
-READY=$(kubectl get deployment $PROJECT_NAME-$STAGE_ENV_COLOR -o json | jq -r '.status.conditions[] | select(.reason == "MinimumReplicasAvailable") | .status')
+READY=$(kubectl get deployment $PROJECT_NAME-$ENV_COLOR -o json | jq -r '.status.conditions[] | select(.reason == "MinimumReplicasAvailable") | .status')
 while [[ "$READY" != "True" ]]; do
-    READY=$(kubectl get deployment $PROJECT_NAME-$STAGE_ENV_COLOR -o json | jq -r '.status.conditions[] | select(.reason == "MinimumReplicasAvailable") | .status')
+    READY=$(kubectl get deployment $PROJECT_NAME-$ENV_COLOR -o json | jq -r '.status.conditions[] | select(.reason == "MinimumReplicasAvailable") | .status')
     sleep 5
 done
 
