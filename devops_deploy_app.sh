@@ -26,11 +26,11 @@ fi
 # initialize service
 if [ "$PROD_ENV_COLOR" = "" ]
 then
-    kubectl apply -f "$WORKSPACE/kubernetes/services/service-prod.yaml" --dry-run=true -o yaml | sed "s/NodePort/:$SERVICE_TYPE/g" | kubectl apply -f -
+    kubectl apply -f "$WORKSPACE/kubernetes/services/service-prod.yaml" --dry-run=true -o yaml | sed "s/NodePort/$SERVICE_TYPE/g" | kubectl apply -f -
 fi
 if [ "$STAGE_ENV_COLOR" = "" ]
 then
-    kubectl apply -f "$WORKSPACE/kubernetes/services/service-stage.yaml" --dry-run=true -o yaml | sed "s/NodePort/:$SERVICE_TYPE/g" | kubectl apply -f -
+    kubectl apply -f "$WORKSPACE/kubernetes/services/service-stage.yaml" --dry-run=true -o yaml | sed "s/NodePort/$SERVICE_TYPE/g" | kubectl apply -f -
 fi
 
 DEPLOYMENT_BLUE=$(kubectl get deployment "$PROJECT_NAME-blue" -o jsonpath='{.metadata.uid}' --ignore-not-found)
