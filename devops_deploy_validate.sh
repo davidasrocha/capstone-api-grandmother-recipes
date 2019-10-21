@@ -59,9 +59,7 @@ echo ""
 echo "shutdown environment $COLOR"
 echo ""
 
-helm upgrade $PROJECT_NAME "$WORKSPACE/helm/" --set "$COLOR.enabled=false" --install --reuse-values
-
-kubectl delete configmap "$PROJECT_NAME-nginx-configs-$COLOR" --ignore-not-found=true
+kubectl delete configmap "$PROJECT_NAME-config-map-$COLOR" --ignore-not-found=true
 kubectl delete deployment "$PROJECT_NAME-$COLOR" --ignore-not-found=true
 
 exit 1

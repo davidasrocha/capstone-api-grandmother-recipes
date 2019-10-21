@@ -1,8 +1,7 @@
-{{ if .Values.green.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-config-map-green
+  name: capstone-config-map-green
 data:
     php_upstream.conf: |
       upstream php {
@@ -14,4 +13,3 @@ data:
       APP_SECRET=418b9bf2afef5ef40fd9f1b033b4b48d
       DATABASE_URL=mysql://user:pwd@127.0.0.1:3306/api-grandmother-recipes
       ENV_COLOR=green
-{{ end }}

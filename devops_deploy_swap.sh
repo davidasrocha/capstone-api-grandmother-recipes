@@ -24,13 +24,13 @@ echo ""
 echo "swapping environment color"
 echo ""
 
-helm upgrade $PROJECT_NAME "$WORKSPACE/helm/" --set "productionSlot=$STAGE_ENV_COLOR" --install --reuse-values
+kubectl patch service "$PROJECT_NAME-service-prod" -p "{\"spec\":{\"selector\":{\"slot\":\"$STAGE_ENV_COLOR\"}}}"
 
 echo ""
 echo "shutdown environment $PROD_ENV_COLOR"
 echo ""
 
-helm upgrade $PROJECT_NAME "$WORKSPACE/helm/" --set "$PROD_ENV_COLOR.enabled=false" --install --reuse-values
+kubectl patch service "$PROJECT_NAME-service-stage" -p "{\"spec\":{\"selector\":{\"slot\":\"$PROD_ENV_COLOR\"}}}"
 
-kubectl delete configmap "$PROJECT_NAME-nginx-configs-$PROD_ENV_COLOR" --ignore-not-found=true
+kubectl delete configmap "$PROJECT_NAME-config-map-$PROD_ENV_COLOR" --ignore-not-found=true
 kubectl delete deployment "$PROJECT_NAME-$PROD_ENV_COLOR" --ignore-not-found=true

@@ -1,5 +1,0 @@
-apiVersion: v1
-appVersion: "stable"
-description: API GrandMother Recipes
-name: helm
-version: 0.1.0

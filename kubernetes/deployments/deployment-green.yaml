@@ -1,27 +1,26 @@
-{{ if .Values.blue.enabled }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ .Release.Name }}-blue
+  name: capstone-green
 spec:
-  replicas: {{ .Values.replicaCount }}
+  replicas: 3
   selector:
     matchLabels:
-      app: {{ .Release.Name }}
-      release: {{ .Release.Name }}
-      slot: blue
+      app: capstone
+      release: capstone
+      slot: green
 
   template:
     metadata:
       labels:
-        app: {{ .Release.Name }}
-        release: {{ .Release.Name }}
-        slot: blue
+        app: capstone
+        release: capstone
+        slot: green
     spec:
       initContainers:
-        - name: {{ .Release.Name }}-php
-          image: "{{ .Values.image.php.repository }}:{{ .Values.image.php.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: capstone-php
+          image: "davidasrocha/api-grandmother-recipes-php:latest"
+          imagePullPolicy: Always
           volumeMounts:
             - name: api-public
               mountPath: /api_public
@@ -38,9 +37,9 @@ spec:
 
       containers:
         # nginx
-        - name: {{ .Release.Name }}-nginx-blue
-          image: "{{ .Values.image.nginx.repository }}:{{ .Values.image.nginx.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: capstone-nginx-green
+          image: "davidasrocha/api-grandmother-recipes-nginx:latest"
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 80
@@ -53,9 +52,9 @@ spec:
               mountPath: /var/www/html/public
 
         # php-fpm
-        - name: {{ .Release.Name }}-php-blue
-          image: "{{ .Values.image.php.repository }}:{{ .Values.image.php.tag }}"
-          imagePullPolicy: {{ .Values.image.pullPolicy }}
+        - name: capstone-php-green
+          image: "davidasrocha/api-grandmother-recipes-php:latest"
+          imagePullPolicy: Always
           ports:
             - name: fast-cgi
               containerPort: 9000
@@ -70,9 +69,8 @@ spec:
       volumes:
         - name: app-config-volume
           configMap:
-            name: {{ .Release.Name }}-config-map-blue
+            name: capstone-config-map-green
         - name: api-public
           emptyDir: {}
         - name: var-dir
           emptyDir: {}
-{{ end }}
