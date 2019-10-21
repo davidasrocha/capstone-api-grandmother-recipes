@@ -68,6 +68,8 @@ pipeline {
             }
             steps {
                 withAWS(region: "$REGION", credentials: 'AWS_DEVOPS') {
+                    sh "rm -rf $WORKSPACE/kubernetes/config-maps/*"
+                    s3Download(file: "$WORKSPACE/kubernetes/config-maps/", bucket: "$BUCKET_NAME", path: "prod/", force: true)
                     s3Download(file: "$KUBECONFIG", bucket: "$BUCKET_NAME", path: "$CLUSTER_NAME", force: true)
                     sh "./devops_deploy_app.sh $CLUSTER_NAME $GIT_BRANCH-$GIT_COMMIT LoadBalancer"
                 }
