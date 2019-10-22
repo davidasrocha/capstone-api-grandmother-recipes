@@ -25,6 +25,7 @@ COPY . /var/www/html
 RUN cp -R ./docker/php/conf.d/* /usr/local/etc/php/conf.d && \
     rm -rf ./docker ./kubernetes
 
+# hadolint ignore=DL3008,DL3015
 RUN apt-get update -y && \
     apt-get install -y \
         git \
