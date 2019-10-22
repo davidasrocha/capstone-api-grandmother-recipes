@@ -6,7 +6,7 @@ This Application expose an API to register and show recipes.
 
 ## Requirements to run application
 
-This project can be executed [locally](./docs/how-to-run-application-locally.md) or using [Docker](./docs/how-to-use-docker-to-application.md) containers. Bellow, there a list of the required resources to run this project.
+You can run this project [locally](./docs/how-to-run-application-locally.md), using [Docker](./docs/how-to-use-docker-to-application.md) or [Kubernetes](./docs/how-to-use-kubernetes-to-application.md). Bellow, there a list of the required resources to run this project.
 
 * PHP 7.1+
 * MySQL 5.7+

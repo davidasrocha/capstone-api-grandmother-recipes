@@ -18,13 +18,13 @@ This command is going to present for you the bash terminal of the PHP container,
 
 ![alt text][php-docker-bash-terminal]
 
-[php-docker-bash-terminal]: ./img/php-docker-bash-terminal.png "PHP Docker Bash Terminal"
+[php-docker-bash-terminal]: ./images/php-docker-bash-terminal.png "PHP Docker Bash Terminal"
 
 Now you can access the application in your web browser using this URL `http://127.0.0.1`, and you will be see the `Symfony Welcome` page.
 
 ![alt text][api-grandmother-recipe-symfony-welcome-page]
 
-[api-grandmother-recipe-symfony-welcome-page]: ./img/api-grandmother-recipe-symfony-welcome-page.png "Symfony Welcome Page"
+[api-grandmother-recipe-symfony-welcome-page]: ./images/api-grandmother-recipe-symfony-welcome-page.png "Symfony Welcome Page"
 
 ### How to access the API Documentation
 
@@ -32,4 +32,4 @@ The application API provide an address to consult and test the resources, you ca
 
 ![alt text][api-v1-doc]
 
-[api-v1-doc]: ./img/api-v1-doc.png "API Doc"
+[api-v1-doc]: ./images/api-v1-doc.png "API Doc"
