@@ -34,3 +34,5 @@ kubectl patch service "$PROJECT_NAME-service-stage" -p "{\"spec\":{\"selector\":
 
 kubectl delete configmap "$PROJECT_NAME-config-map-$PROD_ENV_COLOR" --ignore-not-found=true
 kubectl delete deployment "$PROJECT_NAME-$PROD_ENV_COLOR" --ignore-not-found=true
+
+echo ""
