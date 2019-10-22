@@ -16,11 +16,9 @@ You can find in official web sites of the [PHP](https://www.php.net/downloads.ph
 
 ## Deployment strategy
 
-The project is using a [blue-green deployment](https://martinfowler.com/bliki/BlueGreenDeployment.html) strategy to execute in Kubernetes. There are some shell scripts `devops_deploy_app.sh`, `devops_deploy_validate.sh`, and `devops_deploy_swap.sh` to help to reach the deployment strategy goal.
+The project is using a blue-green deployment strategy to be deployed over a Kubernetes Cluster. There are some shell scripts `devops_deploy_app.sh`, `devops_deploy_validate.sh`, and `devops_deploy_swap.sh`, that are implementing required steps.
 
-![alt blue-green resources](./docs/images/deployment-strategy/blue-green-kubernetes-resources.png)
-
-You can find [here more information](./docs/how-to-use-shell-script-to-blue-green-deployment.md) about how to use shell scripts to help the deployment.
+You can see more detail information about the implementation on [here](./docs/how-was-implemented-blue-green-deployment.md).
 
 ## Jenkins Pipeline
 
