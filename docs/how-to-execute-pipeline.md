@@ -3,6 +3,7 @@ You need to have configure some resources to execute correctly this pipeline in 
 ## Requirements
 
 * [Jenkins AWS Pipeline](https://github.com/jenkinsci/pipeline-aws-plugin)
+* Docker registry, to store the containers images
 
 ## How to execute
 
@@ -21,6 +22,8 @@ Third, you must have to a Kubernetes configuration file into of the S3 Bucket. F
 Fourth, you must have to a folder named `prod` into of the S3 Bucket. Inside of this folder, you need to upload the configuration map files used by the pods.
 
 ![alt s3 bucket config maps](./images/pipeline/aws-s3-bucket-configuration-maps.png)
+
+Fifth, remember, if you want to use a private docker registry, you should had configured in the Kubernetes Cluster.
 
 Finally, you need to connect your Jenkins with your SCM. After configure it, the first pipeline execution will index the branch and present for you a screen similar.
 

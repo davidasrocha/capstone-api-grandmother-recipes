@@ -6,13 +6,21 @@ This Application expose an API to register and show recipes.
 
 ## Requirements to run application
 
-You can run this project [locally](./docs/how-to-run-application-locally.md), using [Docker](./docs/how-to-use-docker-to-application.md) or [Kubernetes](./docs/how-to-use-kubernetes-to-application.md). Bellow, there a list of the required resources to run this project.
-
 * PHP 7.1+
 * MySQL 5.7+
 * Composer 1.8+
 
 You can find in official web sites of the [PHP](https://www.php.net/downloads.php#v7.1.32), [Composer](https://getcomposer.org/doc/00-intro.md), and [MySQL](https://www.mysql.com), how you can install required resources.
+
+## How to run the application
+
+You can run locally, using [Docker](https://www.docker.com/) or [Kubernetes](https://kubernetes.io).
+
+* locally, directly in the host machine or server ([more details](./docs/how-to-run-application-locally.md))
+* Docker, using continer engine ([more details](./docs/how-to-use-docker-to-application.md))
+* Kubernetes, using a production-grade container orchestration ([more details](./docs/how-to-use-kubernetes-to-application.md))
+
+You can see more details about [how the pipeline build the containers](./docs/how-to-pipeline-build-containers.md) using Jenkins.
 
 ## Deployment strategy
 
@@ -22,6 +30,6 @@ You can see more detail information about the implementation on [here](./docs/ho
 
 ## Jenkins Pipeline
 
-There is a Jenkins Pipeline, to use this in Continuous Integration and Continuous Delivery, you need [read this doc](./docs/how-to-execute-pipeline.md).
+There is a Jenkins Pipeline, to use this in Continuous Integration and Continuous Delivery, [more details](./docs/how-to-execute-pipeline.md).
 
 ![alt jenkins pipeline](./docs/images/pipeline/jenkins-pipeline-first-execution.png)
