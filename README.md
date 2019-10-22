@@ -21,3 +21,9 @@ The project is using a [blue-green deployment](https://martinfowler.com/bliki/Bl
 ![alt blue-green resources](./docs/images/deployment-strategy/blue-green-kubernetes-resources.png)
 
 You can find [here more information](./docs/how-to-use-shell-script-to-blue-green-deployment.md) about how to use shell scripts to help the deployment.
+
+## Jenkins Pipeline
+
+There is a Jenkins Pipeline, to use this in Continuous Integration and Continuous Delivery, you need [read this doc](./docs/how-to-execute-pipeline.md).
+
+![alt jenkins pipeline](./docs/images/pipeline/jenkins-pipeline-first-execution.png)
