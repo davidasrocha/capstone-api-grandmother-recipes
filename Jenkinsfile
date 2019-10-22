@@ -8,6 +8,20 @@ pipeline {
     }
 
     stages {
+        stage('Lint Dockerfiles') {
+            parallel {
+                stage('NGINX Dockerfile') {
+                    steps {
+                        sh "docker run --rm -i hadolint/hadolint hadolint - < $WORKSPACE/docker/nginx/Dockerfile"
+                    }
+                }
+                stage('PHP Dockerfile') {
+                    steps {
+                        sh "docker run --rm -i hadolint/hadolint hadolint - < $WORKSPACE/docker/php/Dockerfile"
+                    }
+                }
+            }
+        }
         stage('Docker Images') {
             parallel {
                 stage('NGINX Builds + Deploys') {
