@@ -60,4 +60,4 @@ Finally, run again the script `devops_deploy_swap.sh`:
 
 ![alt blue-green-swap](./images/deployment-strategy/blue-green-swap.png)
 
-All these scripts are in use by Jenkins Pipeline included in this project.
+All these scripts are in use by [Jenkins Pipeline](./how-to-execute-pipeline.md) included in this project.
